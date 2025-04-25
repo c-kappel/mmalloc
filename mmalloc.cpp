@@ -50,8 +50,6 @@ void free(Block* ptr){
     ptr->free = 0;
 }
 
-
-
 int main(){
-
+    //code
 }
