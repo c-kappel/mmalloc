@@ -7,8 +7,8 @@ struct Block{
     Block* next;
 };
 
-Block* findFreeInitializedMemory();
+Block* findFreeInitializedMem(size_t size);
 
-void* allocate();
+void* allocate(size_t size);
 
-void* free();
+void free(void* ptr);
