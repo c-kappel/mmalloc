@@ -1,4 +1,4 @@
-A basic malloc and free implementation using C++, sbrk(), and CMake.
+A basic malloc and free implementation using C++, sbrk(), and CMake. My goal in this project was to get a better understanding of memory management, and build an implementation that was on par with or better than malloc.
 
 To build:
 
