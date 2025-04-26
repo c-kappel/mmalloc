@@ -3,7 +3,7 @@
 
 struct Block{
     size_t size;
-    int free; // 0 free, 1 occupied
+    int free; // 1 free, 0 occupied
     Block* next;
 };
 

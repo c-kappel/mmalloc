@@ -8,8 +8,8 @@ Block* tail = nullptr;
 Block* findFreeInitializedMem(size_t size){
     Block* currentBlock = head;
     while(currentBlock != nullptr){ 
-        if(currentBlock->free == 0 && currentBlock->size >= size){
-            currentBlock->free = 1;
+        if(currentBlock->free == 1 && currentBlock->size >= size){
+            currentBlock->free = 0;
             return currentBlock;
         }
         currentBlock = currentBlock->next;
@@ -24,30 +24,31 @@ void* allocate(size_t size){;
     }
     if(head == nullptr){ //first allocation
         head = (Block*)sbrk(sizeof(Block) + size);
-        head->free = 1;
+        head->free = 0;
         head->size = sizeof(Block) + size;
         head->next = nullptr;
         tail = head;
-        return head;
+        return (void*)(head+1);
     }
-    Block* avaliableMemory = findFreeInitializedMem(sizeof(Block) + size);
-    if(avaliableMemory == nullptr){ // new space
+    Block* availableMemory = findFreeInitializedMem(size);
+    if(availableMemory == nullptr){ // new space
         Block* newAllocatedMemory = (Block*)sbrk(sizeof(Block) + size);
         tail->next = newAllocatedMemory;
         tail = newAllocatedMemory;
-        tail->free = 1;
+        tail->free = 0;
         tail->size = sizeof(Block) + size;
         tail->next = nullptr;
-        return tail;
+        return (void*)(tail+1);
     }
-    return avaliableMemory;
+    return (void*)(availableMemory+1);
 }
 
-void free(Block* ptr){
+void free(void* ptr){
     if(ptr == nullptr){
         return;
     }
-    ptr->free = 0;
+    Block* blockPortion = (Block*)(ptr)-1;
+    blockPortion->free = 1;
 }
 
 int main(){
